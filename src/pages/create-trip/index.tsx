@@ -99,7 +99,7 @@ export function CreateTripPage() {
               />
       )}
       {isConfirmTripModalOpen && 
-     ( <ConfirmTripModal setOwnerName={setOwnerName} setOwnerEmail={setOwnerEmail} closeConfirmTripModal={closeConfirmTripModal} createTrip={createTrip} />)
+     ( <ConfirmTripModal setOwnerName={setOwnerName} setOwnerEmail={setOwnerEmail} closeConfirmTripModal={closeConfirmTripModal} destination={destination} eventStartAndEndDates={eventStartAndEndDates} createTrip={createTrip} />)
 }
     </div>
   )

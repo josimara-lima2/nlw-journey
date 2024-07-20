@@ -3,6 +3,7 @@ import { Button } from "../../components/button";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { api } from "../../lib/axios";
+import { ConfirmParticipantModal } from "./confirm-participant-modal";
 interface Participant{
   id: string,
   name: string | null,
@@ -12,7 +13,19 @@ interface Participant{
 export function Guests() {
   const { tripId } = useParams()
 
-   const [participants, setParticipants] = useState<Participant[]>([])
+  const [participants, setParticipants] = useState<Participant[]>([])
+  const [participant, setParticipant] = useState<Participant | undefined>()
+  
+  const [isConfirmParticipantModalOpen, setIsConfirmParticipantModalOpen] = useState(false)
+
+  function openConfirmParticipantModal(participant: Participant) {
+    setParticipant(participant)
+    setIsConfirmParticipantModalOpen(true)
+  }
+  function closeConfirmParticipantModal() {
+    setParticipant(undefined)
+    setIsConfirmParticipantModalOpen(false)
+  }
   
   useEffect(() => {
     api.get(`trips/${tripId}/participants`).then(response => setParticipants(response.data.participants))
@@ -33,7 +46,9 @@ export function Guests() {
                     {participant.email}
                     </span>
                   </div>
-                  {participant.is_confirmed ? (<CheckCircle2 className="size-5 text-green-400 shrink-0" />):(<CircleDashed className="size-5 text-zinc-400 shrink-0" />)}
+                  {participant.is_confirmed ?
+                    (<CheckCircle2 className="size-5 text-green-400 shrink-0" />) :
+                    (<button onClick={() => openConfirmParticipantModal(participant)}><CircleDashed className="size-5 text-zinc-400 shrink-0" /></button>)}
                 </div>
               )
             })
@@ -44,7 +59,11 @@ export function Guests() {
             
             <UserCog className="size-5" />
                 Gerenciar convidados
-            </Button>
+        </Button>
+        
+        {isConfirmParticipantModalOpen && (
+          <ConfirmParticipantModal participantId={participant} destination={'llll'}   closeConfirmParticipantModal={closeConfirmParticipantModal}/>
+        )}
               
             </div>
     )
