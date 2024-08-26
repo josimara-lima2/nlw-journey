@@ -13,7 +13,7 @@ interface ConfirmTripModalProps {
   setOwnerName: (name: string) => void,
   setOwnerEmail: (email: string) => void,
   destination: string,
-  participantId: Participant,
+  participantId: Participant | undefined,
   eventStartAndEndDates: DateRange | undefined
 }
 export function ConfirmParticipantModal({closeConfirmParticipantModal, participantId, setOwnerEmail, setOwnerName }: ConfirmTripModalProps) {
@@ -21,7 +21,7 @@ export function ConfirmParticipantModal({closeConfirmParticipantModal, participa
 
   async function confirmParticipant() {
     console.log('aqui')
-    await api.get(`participants/${participantId.id}/confirm`)
+    await api.get(`participants/${participantId?.id}/confirm`)
 
     window.document.location.reload()
   }

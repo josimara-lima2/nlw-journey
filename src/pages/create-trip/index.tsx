@@ -12,7 +12,7 @@ export function CreateTripPage() {
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false)
   const [isGuestsModalOpen, setIsGuestsModalOpen] = useState(false)
   const [isConfirmTripModalOpen, setIsConfirmTripModalOpen] = useState(false)
-  const [emailsToInvite, setEmailsToInvite] = useState([])
+  const [emailsToInvite, setEmailsToInvite] = useState<string[]>([])
 
   const [destination, setDestination] = useState('')
   const [ownerName, setOwnerName] = useState('')
@@ -58,7 +58,7 @@ export function CreateTripPage() {
   function addEmailToInvite(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    const email = data.get('email')?.toString()
+    const email = data.get('email')?.toString() ?? '';
     if (!email) {
       return
     } 

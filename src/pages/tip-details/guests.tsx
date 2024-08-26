@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { api } from "../../lib/axios";
 import { ConfirmParticipantModal } from "./confirm-participant-modal";
+import { DateRange } from "react-day-picker";
 interface Participant{
   id: string,
   name: string | null,
@@ -15,7 +16,10 @@ export function Guests() {
 
   const [participants, setParticipants] = useState<Participant[]>([])
   const [participant, setParticipant] = useState<Participant | undefined>()
-  
+  const [ownerName, setOwnerName] = useState('')
+  const [ownerEmail, setOwnerEmail] = useState('')
+  const [eventStartAndEndDates] = useState<DateRange | undefined>()
+
   const [isConfirmParticipantModalOpen, setIsConfirmParticipantModalOpen] = useState(false)
 
   function openConfirmParticipantModal(participant: Participant) {
@@ -28,6 +32,7 @@ export function Guests() {
   }
   
   useEffect(() => {
+    console.log(ownerEmail, ownerName)
     api.get(`trips/${tripId}/participants`).then(response => setParticipants(response.data.participants))
     
   }, [tripId])
@@ -62,7 +67,7 @@ export function Guests() {
         </Button>
         
         {isConfirmParticipantModalOpen && (
-          <ConfirmParticipantModal participantId={participant} destination={'llll'}   closeConfirmParticipantModal={closeConfirmParticipantModal}/>
+          <ConfirmParticipantModal eventStartAndEndDates={eventStartAndEndDates} participantId={participant} destination={'llll'} setOwnerEmail={setOwnerEmail} setOwnerName={setOwnerName}  closeConfirmParticipantModal={closeConfirmParticipantModal} />
         )}
               
             </div>
